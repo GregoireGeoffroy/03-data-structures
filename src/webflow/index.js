@@ -26,6 +26,27 @@ const todos = [
 // Clears the todo list and renders the todos
 function renderTodos() {
   // Your code here
+  // Clears the todo list and renders the todos
+  todoList.innerHTML = "";
+
+  // Iterate through the todos array
+  todos.forEach(todo => {
+    // Clone the template element
+    const todoClone = todoTemplate.cloneNode(true);
+    
+    // Get the text element and set its text content
+    const todoText = todoClone.querySelector(".todo-text");
+    todoText.textContent = todo.text;
+
+    // Get the checkbox element and set its checked property
+    if (todo.completed) {
+      todoText.classList.add("completed");
+    }
+    todoClone.addEventListener("click", toggleCompleted);
+    todoList.appendChild(todoClone);
+  });
+
+
 }
 
 // Takes the value from the input field and adds a new todo to the todos array
@@ -37,10 +58,23 @@ function addTodo(e) {
   e.stopPropagation();
 
   // Your code here
+  const inputText = todoInput.value;
+  const newTodo = {
+    text: inputText,
+    completed: false,
+  };
+  todos.push(newTodo);
+  renderTodos();
+
+// Clear the input field
+todoInput.value = "";
+
 }
 
 function toggleCompleted(e) {
   // Your code here
+  const todoTextElement = e.target;
+  todoTextElement.classList.toggle("completed");
 }
 
 // Execution
